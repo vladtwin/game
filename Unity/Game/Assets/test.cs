@@ -4,7 +4,7 @@ using System;
 
 public class test :MonoBehaviour
 {
-
+    //add this
     //public FireBallSkill a;
     //public FireBallSkill b;
     void Start () {
