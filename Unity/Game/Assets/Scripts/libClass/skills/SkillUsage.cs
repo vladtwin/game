@@ -70,7 +70,6 @@ public class SkilllUsage: SkillManager
             {
                 try
                 {
-                  //  Debug.Log("Cast: " + wait.id);
                     GameObject skillObject = GameObject.Instantiate(SkillManager.singleton.getSkill(wait.id).skillObject, startPosition, new Quaternion()) as GameObject;
                     NetworkServer.Spawn(skillObject);
                     skillObject.GetComponent<AbstractSkillUse>().StartUse(skill.spoperties,target,startPosition);
@@ -79,26 +78,6 @@ public class SkilllUsage: SkillManager
                 AbortCast();
             }           
         }
-       /* while (true) {
-           
-            if (nowCast != null ) {
-                if (nowCast.time > 0)
-                {
-                    if (!isCast)
-                        waitSkill = null;                    
-                }
-                if (isCast)
-                {
-                    wait.Add(new SkillWait() { id = waitSkill.id, time = waitSkill.coolDown });
-                    waitSkill = null;
-                }
-            }
-            foreach (SkillWait w in wait)
-                w.time -=Time.deltaTime;
-            int removeId =
-            wait.RemoveAll(p => p.time <= 0);
-           
-        }  */
     }
 
 
