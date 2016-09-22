@@ -29,15 +29,21 @@ public class SkilllUsage: SkillManager
             return nowCastTime / castTime;
         }
     }
+    List<SkillWait> coolDown = new List<SkillWait>();
     SkillWait wait;
     public float castTime { get; private set; }
     public float nowCastTime { get; private set; }
     Vector3 target,startPosition;
     SkillContainer skill;
-    public SkilllUsage() : base(false)
+    int playerId;
+    public SkilllUsage()
     {
        // StartCoroutine(WaitCast()); 
-    }           
+    }
+    public SkilllUsage(int playerId) 
+    {
+        this.playerId = playerId;
+    }
     public void SkillUse(int id,Vector3 _target, Vector3 _startPosition,int playerId)
     {
         if (wait!=null && wait.id==id)
@@ -72,7 +78,7 @@ public class SkilllUsage: SkillManager
                 {
                     GameObject skillObject = GameObject.Instantiate(SkillManager.singleton.getSkill(wait.id).skillObject, startPosition, new Quaternion()) as GameObject;
                     NetworkServer.Spawn(skillObject);
-                    skillObject.GetComponent<AbstractSkillUse>().StartUse(skill.spoperties,target,startPosition);
+                    skillObject.GetComponent<AbstractSkillUse>().StartUse(skill.spoperties,target,startPosition, playerId);
                 }
                 catch { }
                 AbortCast();

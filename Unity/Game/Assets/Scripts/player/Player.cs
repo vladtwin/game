@@ -4,6 +4,11 @@ using UnityEngine.Networking;
 
 public class Player : NetworkBehaviour {
 
+    static int count = 0;
+    static Player()
+    {
+        count++;
+    }
 
     private Rigidbody phisiks;
     private NavMeshAgent agent;
@@ -17,12 +22,12 @@ public class Player : NetworkBehaviour {
     public bool onPlace = true; 
 
 
-
+    
     private CapsuleCollider capsule;
     private Rigidbody rigid;
     // parametrs
     [SyncVar]
-    public int HP = 100;
+    public float HP = 100;
     public int weight = 100;
     public int speed = 100;
     //score
@@ -40,17 +45,28 @@ public class Player : NetworkBehaviour {
 
     public Texture2D selectPic;
     public CameraMove camera;
-
-   
+    
+    
     public SkilllUsage skills;
     public int selectedSkillId;
-    private int playerId;
+    
+    public int playerId { get { return id; } protected set { if (id == 0) id = value; } }//  player id in database 
+    [SyncVar]
+    private int id;
+    [SyncVar]
+    int lastDamagePlayerId;
     [SyncVar]
     public float SkillUseProcentage;
    // public iSkillProperties s;
 
     private void Start ()
     {
+        //TEMP
+        playerId = count + 1;
+
+
+
+
         agent = gameObject.GetComponent<NavMeshAgent>();
         agent.speed = speedMove;
         agent.angularSpeed = speedRotation;
@@ -60,8 +76,8 @@ public class Player : NetworkBehaviour {
         capsule = GetComponent<CapsuleCollider>();
         rigid = GetComponent<Rigidbody>();
         camera = GameObject.Find("CameraMove").GetComponent<CameraMove>();
-        camera.targetPlayer = this;
-        skills = new SkilllUsage();
+        camera.targetPlayer = this;        
+        skills = new SkilllUsage(playerId);
         skills.Register(SkillManager.singleton.getSkill(1));
        
     }
@@ -121,6 +137,24 @@ public class Player : NetworkBehaviour {
             agent.SetDestination(target);//move only in server
             skills.AbortCast();
         }
+    }
+    public void doSkillUse(AbstractSkillUse skill)
+    {
+        float dist = Vector3.Distance(skill.transform.position, transform.position);
+        
+        lastDamagePlayerId = skill.playerId;
+        if (dist != 0)
+        {
+            float distCoof = (skill.properties.ragne / dist);
+            HP -= skill.properties.damage * (skill.properties.damageDistanсeProcentage* distCoof);
+            rigid.AddForce((skill.transform.position - transform.position).normalized*skill.properties.ragne *(skill.properties.forceDistanсeProcentage*distCoof));
+        }else
+        {            
+            Debug.LogError("Error (target player position = skill position)");
+            //HP -= skill.properties.damage;
+            // rigid.AddForce((skill.transform.position - transform.position).normalized * skill.properties.ragne);
+        }
+        //rigid.AddForce( skill.transform.position)
     }
 
 

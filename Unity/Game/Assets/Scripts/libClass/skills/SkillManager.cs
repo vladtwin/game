@@ -10,29 +10,18 @@ using System.ComponentModel;
 
 
 
-public  class SkillManager  {   
-
+public  class SkillManager  {
+    private bool isRegistred;
     public static SkillManager singleton=new SkillManager();
     List<SkillContainer> skills = new List<SkillContainer>();
     static SkillManager()
     {
         singleton.skills = new List<SkillContainer>();
-        singleton.skills.Add(
-            new SkillContainer(1,
-            Resources.Load<GameObject>("Prefabs/skills/Distance/skillFireBall")
-            , new SkillProperties(1, 2,10))
-            );
 
-     //   singleton.skills.Add(new FireBallSkill());
-        //add new skill
-    }
-    public SkillManager()
-    {
 
-    }
-    public SkillManager(bool createAllSkills)
-    {
-           
+        SkillProperties fireballProperties = new SkillProperties(1, 1, 3, 10, 10, 20, 1, 1, PlayerClassEnum.no, PlayerSkillEnum.none, null, null, 0, 0, 0,"Fireball","Create firemall and damage players...",1,1);
+        GameObject fireballObject = Resources.Load<GameObject>("Prefabs/skills/Distance/skillFireBall");        
+        singleton.skills.Add(new SkillContainer(1, fireballObject,  fireballProperties));
 
     }
     public  void Register(SkillContainer skill)
@@ -67,6 +56,17 @@ public  class SkillManager  {
         if (tempP == null) return false;
         temp.spoperties= tempP.UpdateNextLevel();
         return true;
+    }
+    public void register(NetworkManager nm)//register all skill object in network (from NetworkMasterClient in Start)
+    {
+        if(!isRegistred)
+        {
+            foreach(SkillContainer container in skills)
+            {
+                nm.spawnPrefabs.Add(container.skillObject);
+            }
+            isRegistred = true;
+        }
     }
     
 }

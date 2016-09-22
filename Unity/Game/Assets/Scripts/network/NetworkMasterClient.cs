@@ -35,6 +35,9 @@ public class NetworkMasterClient : NetworkManager
         maneger.playerPrefab = falsePrefab;
         maneger.networkPort = gamePort;
         maneger.spawnPrefabs.Add(testPrefab);
+
+        SkillManager.singleton.register(maneger);
+       
        // maneger.autoCreatePlayer = false;
     }
 

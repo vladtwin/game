@@ -21,8 +21,4 @@ public enum PlayerClassEnum:byte
     /// </summary>
     mag 
 }
-public enum PlayerSkillEnum:byte
-{
-    
-}
 

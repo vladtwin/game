@@ -22,12 +22,31 @@ public  class SkillProperties
     public int nowLevel { get; protected set; }
     public int maxLevel { get; protected set; }
     public int cost;
+    public string _name { get; protected set; }
+    public string description { get; protected set; }
+    public float damageDistanсeProcentage { get; protected set; }
+    public float forceDistanсeProcentage { get; protected set; }
+
     public SkillProperties() { }
-    public SkillProperties(int id,float castTime,float speed)
+    public SkillProperties(int id,float damage, float coolDown, float force,float speed,float radius,float ragne,  float castTime, PlayerClassEnum playerClass, PlayerSkillEnum playerSkillType, List<UpgradeManager> update, List<float> updateCoof, int nowLevel, int maxLevel, int cost,string _name,string description, float damageDistanсeProcentage, float forceDistanсeProcentage)
     {
         this.id = id;
-        this.castTime = castTime;
         this.speed = speed;
+        this.damage = damage;
+        this.coolDown = coolDown;
+        this.force = force;
+        this.speed = speed;
+        this.radius = radius;
+        this.castTime = castTime;
+        this.playerClass = playerClass;
+        this.playerSkillType = playerSkillType;
+        this.update = update;
+        this.updateCoof = updateCoof;
+        this.maxLevel = maxLevel;
+        this.cost = cost;
+        this.ragne = ragne;
+        this.damageDistanсeProcentage = damageDistanсeProcentage;
+        this.forceDistanсeProcentage = forceDistanсeProcentage;
     }
     public SkillProperties UpdateLevel(SkillProperties p, int level)
     {

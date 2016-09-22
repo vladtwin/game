@@ -7,7 +7,7 @@ public class PlayerData : MonoBehaviour {
 
 
 	void Start () {
-        skills = new SkillManager(true);
+      
 
     }
 	

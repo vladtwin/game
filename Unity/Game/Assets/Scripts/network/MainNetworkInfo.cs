@@ -11,7 +11,6 @@ public class MainNetworkInfo : MonoBehaviour
 
     void Start () {
        Name = "vasa";
-       skills = new SkillManager(false);
     }
 	
 	
