@@ -11,6 +11,7 @@ public class test :MonoBehaviour
          //a = new FireBallSkill();
         //a.isUse = true;
        // b = a.Clone() as FireBallSkill;
+       //add new line
     }
 	
 	// Update is called once per frame
